@@ -7,8 +7,8 @@
 #include <ArduinoJson.h> 
 #include "time.h"        
 
-const char* ssid = ":p";
-const char* password = "asdfghjkl";
+const char* ssid     = "NAMA_WIFI_KAMU_DISINI";
+const char* password = "PASSWORD_WIFI_KAMU_DISINI";
 
 AsyncWebServer server(80);
 AsyncEventSource events("/events");
