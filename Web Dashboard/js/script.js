@@ -102,7 +102,7 @@ btnStop.addEventListener('click', () => {
 // ==========================================
 // 3. PENERIMAAN DATA DARI ESP32
 // ==========================================
-const gateway = "http://172.20.10.2/events"; 
+const gateway = "http://IP ESP32/events"; 
 let latestData = null;
 
 if (!!window.EventSource) {
