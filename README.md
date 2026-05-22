@@ -14,9 +14,12 @@ Sebelum mengunggah kode ke ESP32, sesuaikan kredensial jaringan WiFi yang akan d
 
 ## 🔗 Konfigurasi Web Dashboard (script.js)
 Agar dashboard dapat menerima aliran data secara real-time dari ESP32, Anda harus memasukkan IP Address tersebut ke dalam file JavaScript.
-1. Buka folder Web_Dashboard lalu edit file script.js menggunakan text editor (VS Code, Notepad, dll).
-2. Cari baris kode EventSource di bagian atas, lalu ganti IP default-nya dengan IP Address ESP32 yang baru saja Anda dapatkan dari Serial Monitor.
-3. 
+1. Buka folder Web Dashboard lalu edit file script.js
+2. Cari baris kode EventSource, lalu ganti IP default-nya dengan IP Address ESP32 yang baru saja Anda dapatkan dari Serial Monitor.
+   ```js
+   const gateway = "IP ESP32/events";
+4. Simpan perubahan pada script.js.
+5. Klik kanan file index.html lalu pilih Open with Live Server, halaman akan otomatis terbuka di browser Anda, dan grafik dashboard akan langsung menampilkan pergerakan sensor!
 
 ## 📚 Library Arduino IDE yang Dibutuhkan
 Pastikan library berikut sudah terinstal di Arduino IDE Anda:
