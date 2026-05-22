@@ -6,8 +6,9 @@ Proyek ini adalah sistem pemantauan pergerakan (motion tracking) dan deteksi jat
 Sebelum mengunggah kode ke ESP32, sesuaikan kredensial jaringan WiFi yang akan digunakan agar perangkat dapat terhubung.
 1. Buka folder ESP32 lalu ke aiwise.ino di Arduino IDE.
 2. Cari baris berikut di bagian atas kode:
-    const char* ssid = "Nama Wifi";       // Ganti dengan nama WiFi (SSID) baru
-    const char* password = "Password Wifi";   // Ganti dengan password WiFi baru
+    ```cpp
+    const char* ssid     = "NAMA_WIFI_KAMU_DISINI";
+    const char* password = "PASSWORD_WIFI_KAMU_DISINI";
 4. Pastikan laptop/smartphone yang digunakan untuk membuka Web Dashboard berada dalam satu jaringan WiFi yang sama dengan Perangkat ESP32.
 5. Setelah di-upload, buka Serial Monitor (Baudrate: 115200) untuk melihat IP Address yang didapatkan oleh ESP32 (contoh: 192.168.1.5). Masukkan IP tersebut ke browser Anda untuk membuka dashboard.
 
