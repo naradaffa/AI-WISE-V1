@@ -53,7 +53,7 @@ Sistem koordinat 3D pada alat ini telah disesuaikan agar patuh pada regulasi mat
      - Putar ke Kanan (Clockwise / CW) = Nilai berkurang ke Negatif (-) 0° -> -90° -> -180°
 2. Standar Percepatan (Linear Acceleration)
    Menggunakan satuan Standar Internasional m/s² (G-Force dikalikan 9.80665).
-   - Sumbu Z (Vertikal): Saat pengguna berdiri tegak, Sumbu Z akan membaca gaya gravitasi murni sebesar -9.8 m/s². Jika terjadi hentakan jatuh mendadak, nilai resultan total percepatan (totalAcc) akan melonjak melewati batas aman (> 20.0 m/s²) dan memicu status "JATUH!".
+   - Sumbu Z (Vertikal): Saat pengguna berdiri tegak, Sumbu Z akan membaca gaya gravitasi murni sebesar -9.8 m/s².
    - Sumbu X & Y: Merepresentasikan percepatan linear translasi ke arah depan-belakang dan samping kanan-kiri.
 3. Kecepatan Sudut (Giroskop)
    Menggunakan satuan derajat per detik (deg/s). Membaca seberapa cepat sentakan atau laju rotasi yang sedang terjadi pada sumbu X, Y, dan Z secara real-time sebelum distabilkan menjadi sudut Euler.
