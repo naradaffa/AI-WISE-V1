@@ -52,5 +52,5 @@ Perangkat dilengkapi dengan tombol kalibrasi dinamis (hardware button) yang terh
 - Catatan: Jika tombol ditekan kurang dari 2 detik, sistem tidak akan melakukan reset (anti-bocor/anti-peleset).
 
 📂 Struktur Repositori
-- ESP32/aiwise.ino : Berisi kode program utama Arduino (.ino) untuk ESP32.
+- ESP32 : Berisi kode program utama Arduino (.ino) untuk ESP32.
 - Web Dashboard : Berisi file front-end (index.html, style.css, script.js) untuk menampilkan visualisasi data grafis dan status jatuh pengguna.
