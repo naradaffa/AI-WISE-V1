@@ -23,7 +23,7 @@ Pastikan library berikut sudah terinstal di Arduino IDE Anda:
 🚨 Prosedur Kalibrasi & Arti Indikator LED
 Untuk mendapatkan akurasi sensor yang maksimal, perangkat menerapkan sistem kalibrasi hulu (hardware mapping). SOP penyalaan alat wajib mengikuti panduan ini karena posisi sensor dipasang vertikal (Sumbu Y fisik menghadap ke atas):
 | Tahapan Kalibrasi | Status LED | Instruksi Tindakan Pengguna | Tujuan Sistem |
-| --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | Tahap 1 (1 Detik) | LED Merah NYALA, LED Hijau MATI | Pegang alat dalam posisi berdiri tegak (seperti saat menempel di sabuk) dan diamkan. | Mencari nilai bias awal untuk akselerometer dan mengisolasi gaya gravitasi bumi. |
 | Tahap 2 (5 Detik) | LED Merah & Hijau Kedip Bergantian | Tetap pegang alat dalam posisi berdiri tegak, lalu putar alat/tubuh Anda 360 derajat secara horizontal (layaknya radar). | Mencari batas nilai minimum-maksimum magnetometer (kompas) pada bidang datar. |
 | Tahap 3 (2 Detik) | LED Merah & Hijau NYALA BERSAMAAN | Berhenti memutar, hadapkan alat lurus ke DEPAN, dan tahan diam. | Proses Auto-Zeroing untuk mengunci arah depan tersebut sebagai sudut Yaw = 0.0. |
