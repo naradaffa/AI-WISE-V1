@@ -12,7 +12,13 @@ Sebelum mengunggah kode ke ESP32, sesuaikan kredensial jaringan WiFi yang akan d
 4. Pastikan laptop/smartphone yang digunakan untuk membuka Web Dashboard berada dalam satu jaringan WiFi yang sama dengan Perangkat ESP32.
 5. Setelah di-upload, buka Serial Monitor (Baudrate: 115200) untuk melihat IP Address yang didapatkan oleh ESP32 (contoh: 192.168.1.5). Masukkan IP tersebut ke browser Anda untuk membuka dashboard.
 
-## 📚 Library Arduino yang Dibutuhkan
+## 🔗 Konfigurasi Web Dashboard (script.js)
+Agar dashboard dapat menerima aliran data secara real-time dari ESP32, Anda harus memasukkan IP Address tersebut ke dalam file JavaScript.
+1. Buka folder Web_Dashboard lalu edit file script.js menggunakan text editor (VS Code, Notepad, dll).
+2. Cari baris kode EventSource di bagian atas, lalu ganti IP default-nya dengan IP Address ESP32 yang baru saja Anda dapatkan dari Serial Monitor.
+3. 
+
+## 📚 Library Arduino IDE yang Dibutuhkan
 Pastikan library berikut sudah terinstal di Arduino IDE Anda:
 1. Wire.h (Bawaan)
 2. MPU9250_asukiaaa
