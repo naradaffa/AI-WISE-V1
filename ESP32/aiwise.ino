@@ -1,4 +1,4 @@
-5#include <Wire.h>
+#include <Wire.h>
 #include <MPU9250_asukiaaa.h>
 #include <WiFi.h>
 //#include <SPI.h>  
