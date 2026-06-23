@@ -38,7 +38,7 @@ Untuk mendapatkan akurasi sensor yang maksimal, perangkat menerapkan sistem kali
 | Tahap 3 (2 Detik) | LED Merah & Hijau NYALA BERSAMAAN | Berhenti memutar, hadapkan alat lurus ke DEPAN, dan tahan diam. | Proses Auto-Zeroing untuk mengunci arah depan tersebut sebagai sudut Yaw = 0.0. |
 | Tahap Berjalan | LED Merah MATI, LED Hijau NYALA | Alat siap digunakan di sabuk untuk aktivitas/pengujian. | Sistem beroperasi normal dan mulai mengirimkan data JSON ke web. |
 
-## 📊 Standar Satuan dan Konvensi Sudut (Standar Internasional)
+## 📊 Standar Satuan dan Konvensi Sudut
 Sistem koordinat 3D pada alat ini telah disesuaikan agar patuh pada regulasi matematika spasial Right-Hand Rule (Z-Up) untuk mempermudah integrasi dengan platform navigasi atau robotika.
 1. Standar Rotasi / Sudut (Euler Angles)
    Nilai sudut awal saat alat selesai dikalibrasi menghadap ke depan adalah (0, 0, 0).
