@@ -7,7 +7,7 @@
 #include <ArduinoJson.h> 
 #include "time.h"        
 
-const char* ssid     = "NAMA_WIFI_KAMU_DISINI";
+const char* ssid = "NAMA_WIFI_KAMU_DISINI";
 const char* password = "PASSWORD_WIFI_KAMU_DISINI";
 
 AsyncWebServer server(80);
@@ -199,11 +199,11 @@ void loop() {
         resetTriggered = false;
       }
       
-      if (!resetTriggered && (millis() - buttonPressStartTime >= 5000)) {
+      if (!resetTriggered && (millis() - buttonPressStartTime >= 2000)) {
         pitch_bias = raw_pitch;
         roll_bias  = raw_roll;
         yaw_bias   = raw_yaw;
-        Serial.println(">>> POSISI DIRESET KE 0.0 (DITAHAN 5 DETIK) <<<");
+        Serial.println(">>> POSISI DIRESET KE 0.0 (DITAHAN 2 DETIK) <<<");
         
         digitalWrite(LED_GREEN, LOW);
         digitalWrite(LED_RED, HIGH);
@@ -226,6 +226,7 @@ void loop() {
       lastSseSend = nowMillis; 
       
       float totalAcc = sqrt(aX * aX + aY * aY + aZ * aZ);
+      String status = (totalAcc > 20.0) ? "JATUH!" : "AMAN";
 
       StaticJsonDocument<512> doc;
       doc["time"] = nowMillis;
@@ -238,7 +239,8 @@ void loop() {
       doc["total"] = round(totalAcc * 100) / 100.0;
       doc["roll"] = round(roll * 10) / 10.0;
       doc["pitch"] = round(pitch * 10) / 10.0;
-      doc["yaw"] = round(yaw * 10) / 10.0;
+      doc["yaw"] = round(yaw * 10) / 10.0; 
+      doc["status"] = status;
 
       String payload;
       serializeJson(doc, payload);
