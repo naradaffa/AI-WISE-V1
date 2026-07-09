@@ -67,13 +67,14 @@ const chartGyro2 = new Chart(ctxGyro2, {
 
 
 // ==========================================
-// 2. LOGIKA KONTROL CSV (DIPISAH PER DEVICE)
+// 2. LOGIKA KONTROL CSV (INDIVIDU & MASTER)
 // ==========================================
 let isRecording_1 = false, isRecording_2 = false;
 let csvDataArray_1 = [], csvDataArray_2 = [];
 let dataCount_1 = 0, dataCount_2 = 0;
 const CSV_HEADER = "Timestamp(ms),AccX,AccY,AccZ,GyroX,GyroY,GyroZ,Roll,Pitch,Yaw";
 
+// -- Kontrol Individu --
 function startRecord(device) {
     if (device === 1) {
         isRecording_1 = true;
@@ -101,6 +102,7 @@ function startRecord(device) {
         recordStatus.innerText = "Merekam (100Hz)... 0 baris";
         recordStatus.style.color = "#d32f2f";
     }
+    syncMasterButtons(); // Sinkronisasi dengan tombol master
 }
 
 function stopRecord(device) {
@@ -138,14 +140,95 @@ function stopRecord(device) {
         btnDownload.download = `Log_Pekerja2_${Date.now()}.csv`;
         btnDownload.style.display = "inline-block";
     }
+    syncMasterButtons(); // Sinkronisasi dengan tombol master
+}
+
+
+// -- Kontrol Master (1 Klik Untuk Keduanya) --
+function startRecordAll() {
+    if (!isRecording_1) startRecord(1);
+    if (!isRecording_2) startRecord(2);
+}
+
+function stopRecordAll() {
+    if (isRecording_1) stopRecord(1);
+    if (isRecording_2) stopRecord(2);
+}
+
+// -- Sistem Sinkronisasi Tombol Master vs Individu --
+function syncMasterButtons() {
+    const startAllBtn = document.getElementById('btn-start-all');
+    const stopAllBtn = document.getElementById('btn-stop-all');
+    const downloadAllBtn = document.getElementById('btn-download-all');
+
+    // Jika keduanya sedang merekam, matikan tombol start master
+    if (isRecording_1 && isRecording_2) {
+        startAllBtn.disabled = true;
+    } else {
+        startAllBtn.disabled = false;
+    }
+
+    // Jika setidaknya ada satu yang sedang merekam, hidupkan tombol stop master
+    if (isRecording_1 || isRecording_2) {
+        stopAllBtn.disabled = false;
+    } else {
+        stopAllBtn.disabled = true;
+    }
+
+    // Jika setidaknya ada satu alat yang punya riwayat rekaman selesai, hidupkan tombol CSV Gabungan
+    if (csvDataArray_1.length > 1 || csvDataArray_2.length > 1) {
+        downloadAllBtn.disabled = false;
+    } else {
+        downloadAllBtn.disabled = true;
+    }
+}
+
+
+// -- Fungsi Download Data Gabungan --
+function downloadCombinedCSV() {
+    if (csvDataArray_1.length <= 1 && csvDataArray_2.length <= 1) {
+        alert("Belum ada data rekaman untuk didownload.");
+        return;
+    }
+
+    let combinedCSV = [];
+    
+    const header1 = "Timestamp1(ms),AccX1,AccY1,AccZ1,GyroX1,GyroY1,GyroZ1,Roll1,Pitch1,Yaw1";
+    const header2 = "Timestamp2(ms),AccX2,AccY2,AccZ2,GyroX2,GyroY2,GyroZ2,Roll2,Pitch2,Yaw2";
+    combinedCSV.push(header1 + "," + header2);
+
+    const len1 = csvDataArray_1.length > 1 ? csvDataArray_1.length - 1 : 0;
+    const len2 = csvDataArray_2.length > 1 ? csvDataArray_2.length - 1 : 0;
+    const maxLen = Math.max(len1, len2);
+
+    const emptyRow = ",,,,,,,,,"; 
+
+    for (let i = 1; i <= maxLen; i++) {
+        const row1 = i <= len1 ? csvDataArray_1[i] : emptyRow;
+        const row2 = i <= len2 ? csvDataArray_2[i] : emptyRow;
+        
+        combinedCSV.push(row1 + "," + row2);
+    }
+
+    const blob = new Blob([combinedCSV.join("\n")], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Log_GABUNGAN_Pekerja_${Date.now()}.csv`;
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
 }
 
 
 // ==========================================
 // 3. PENERIMAAN DATA DARI 2 ESP32 (SSE)
 // ==========================================
-const IP_PEKERJA_1 = "http://IP_DEVICE_1/events"; // Ganti dengan IP Device ke-1 milikmu
-const IP_PEKERJA_2 = "http://IP_DEVICE_2/events"; // Ganti dengan IP Device ke-2 milikmu
+const IP_PEKERJA_1 = "http://192.168.1.100/events"; 
+const IP_PEKERJA_2 = "http://192.168.1.101/events"; 
 
 let latestData_1 = null;
 let latestData_2 = null;
@@ -208,8 +291,6 @@ if (!!window.EventSource) {
 // ==========================================
 // 4. PEMBARUAN LAYAR DOM & GRAFIK (INTERVAL)
 // ==========================================
-// Catatan: Memperbarui 4 chart sekaligus bisa membebani browser. 
-// Jika lemot, ganti angka 66 di bawah ini menjadi 100 atau 150. Rekaman CSV tetap aman.
 setInterval(() => {
     
     if (latestData_1) {
