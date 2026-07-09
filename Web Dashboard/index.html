@@ -18,6 +18,16 @@
     </header>
 
     <main>
+        <div class="global-action">
+            <div class="record-panel master-panel">
+                <button id="btn-start-all" onclick="startRecordAll()" class="btn-master-start">▶ MULAI REKAM SEMUA</button>
+                <button id="btn-stop-all" onclick="stopRecordAll()" disabled class="btn-master-stop">⏹ BERHENTI SEMUA</button>
+                <button id="btn-download-all" onclick="downloadCombinedCSV()" disabled class="btn-download-all">
+                    ⬇ DOWNLOAD CSV GABUNGAN
+                </button>
+            </div>
+        </div>
+
         <div class="device-section">
             <div class="section-header">
                 <h2 class="section-title">Pemantauan Pekerja 1</h2>
