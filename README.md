@@ -29,7 +29,7 @@ Pegang alat vertikal (Sumbu Y menghadap atas) saat dinyalakan.
 | **Tahap 3 (2s)** | Merah & Hijau NYALA Bersamaan | Hadapkan lurus ke depan, tahan diam (kunci Yaw 0). |
 | **Berjalan** | Merah MATI, Hijau NYALA | Pasang di sabuk, alat aktif kirim data. |
 
-## 📊 Standar Pengukuran (Right-Hand Rule)
+## 📊 Standar Pengukuran
 
 *   **PITCH:** Menunduk (-), Tengadah (+)
 *   **ROLL:** Miring Kiri (-), Miring Kanan (+)
@@ -38,10 +38,10 @@ Pegang alat vertikal (Sumbu Y menghadap atas) saat dinyalakan.
 *   **Akselerometer (Z):** Translasi vertikal (diam = -9.8 m/s²).
 *   **Giroskop:** Kecepatan sentakan rotasi (deg/s).
 
-## 🛠️ Reset Posisi (Tombol D3)
+## 🛠️ Tombol Reset Posisi
 
 *   **Fungsi:** Mengembalikan referensi orientasi ke titik 0 (Roll/Pitch/Yaw) tanpa *reboot*.
-*   **Cara Pakai:** Tekan dan tahan tombol selama 5 detik.
+*   **Cara Pakai:** Tekan dan tahan tombol selama 2 detik.
 *   **Indikator Sukses:** LED Hijau mati sementara, LED Merah kedip cepat (300ms).
 
 ## 📂 Struktur Repositori
