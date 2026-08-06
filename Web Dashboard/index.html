@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI WISE Dashboard - 2 Devices</title>
+    <title>AI WISE Dashboard - 3 Devices</title>
     
     <link rel="stylesheet" href="css/style.css">
     
@@ -30,7 +30,7 @@
 
         <div class="device-section">
             <div class="section-header">
-                <h2 class="section-title">Pemantauan Pekerja 1</h2>
+                <h2 class="section-title">Pemantauan Titik Lumbar</h2>
                 <div class="connection-status disconnected" id="ws-status-1">Menghubungkan...</div>
             </div>
             
@@ -62,13 +62,13 @@
 
             <section class="charts-row">
                 <div class="chart-card">
-                    <h3>Akselerasi 3 Sumbu Pekerja 1 (m/s&sup2;)</h3>
+                    <h3>Akselerasi 3 Sumbu Titik Lumbar (m/s&sup2;)</h3>
                     <div class="chart-wrapper">
                         <canvas id="chartAccel-1"></canvas>
                     </div>
                 </div>
                 <div class="chart-card">
-                    <h3>Gyroscope 3 Sumbu Pekerja 1 (&deg;/s)</h3>
+                    <h3>Gyroscope 3 Sumbu Titik Lumbar (&deg;/s)</h3>
                     <div class="chart-wrapper">
                         <canvas id="chartGyro-1"></canvas>
                     </div>
@@ -78,7 +78,7 @@
 
         <div class="device-section">
             <div class="section-header">
-                <h2 class="section-title">Pemantauan Pekerja 2</h2>
+                <h2 class="section-title">Pemantauan Titik Thoracic Spine</h2>
                 <div class="connection-status disconnected" id="ws-status-2">Menghubungkan...</div>
             </div>
             
@@ -110,15 +110,63 @@
 
             <section class="charts-row">
                 <div class="chart-card">
-                    <h3>Akselerasi 3 Sumbu Pekerja 2 (m/s&sup2;)</h3>
+                    <h3>Akselerasi 3 Sumbu Titik Thoracic Spine (m/s&sup2;)</h3>
                     <div class="chart-wrapper">
                         <canvas id="chartAccel-2"></canvas>
                     </div>
                 </div>
                 <div class="chart-card">
-                    <h3>Gyroscope 3 Sumbu Pekerja 2 (&deg;/s)</h3>
+                    <h3>Gyroscope 3 Sumbu Titik Thoracic Spine (&deg;/s)</h3>
                     <div class="chart-wrapper">
                         <canvas id="chartGyro-2"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="device-section">
+            <div class="section-header">
+                <h2 class="section-title">Pemantauan Titik Sternum</h2>
+                <div class="connection-status disconnected" id="ws-status-3">Menghubungkan...</div>
+            </div>
+            
+            <section class="record-panel">
+                <button id="btn-start-3" onclick="startRecord(3)">▶ MULAI REKAM 3</button>
+                <button id="btn-stop-3" onclick="stopRecord(3)" disabled>⏹ BERHENTI</button>
+                <a id="btn-download-3" class="btn-download">⬇ DOWNLOAD CSV 3</a>
+                <span id="record-status-3" class="status-text">Status: Standby</span>
+            </section>
+
+            <section class="cards-container">
+                <div class="card">
+                    <span class="card-title">Total Akselerasi</span>
+                    <div class="card-value"><span id="val-total-accel-3">0.00</span> m/s&sup2;</div>
+                </div>
+                <div class="card">
+                    <span class="card-title">Pitch (Tundukan)</span>
+                    <div class="card-value"><span id="val-pitch-3">0.0</span>&deg;</div>
+                </div>
+                <div class="card">
+                    <span class="card-title">Roll (Kemiringan)</span>
+                    <div class="card-value"><span id="val-roll-3">0.0</span>&deg;</div>
+                </div>
+                <div class="card">
+                    <span class="card-title">Yaw (Arah)</span>
+                    <div class="card-value"><span id="val-yaw-3">0.0</span>&deg;</div>
+                </div>
+            </section>
+
+            <section class="charts-row">
+                <div class="chart-card">
+                    <h3>Akselerasi 3 Sumbu Titik Sternum (m/s&sup2;)</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="chartAccel-3"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Gyroscope 3 Sumbu Titik Sternum (&deg;/s)</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="chartGyro-3"></canvas>
                     </div>
                 </div>
             </section>
