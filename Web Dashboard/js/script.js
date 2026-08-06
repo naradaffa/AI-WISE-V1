@@ -1,5 +1,5 @@
 // ==========================================
-// 1. SETUP GRAFIK CHART.JS (4 CHART)
+// 1. SETUP GRAFIK CHART.JS (6 CHART)
 // ==========================================
 Chart.defaults.animation = false;
 Chart.defaults.elements.point.radius = 0; 
@@ -21,6 +21,7 @@ const commonOptions = {
 
 const MAX_CHART_POINTS = 75;
 
+// Chart Pekerja 1
 const ctxAccel1 = document.getElementById('chartAccel-1').getContext('2d');
 const chartAccel1 = new Chart(ctxAccel1, {
     type: 'line',
@@ -43,6 +44,7 @@ const chartGyro1 = new Chart(ctxGyro1, {
     options: { ...commonOptions, scales: { ...commonOptions.scales, y: { suggestedMin: -100, suggestedMax: 100 } } }
 });
 
+// Chart Pekerja 2
 const ctxAccel2 = document.getElementById('chartAccel-2').getContext('2d');
 const chartAccel2 = new Chart(ctxAccel2, {
     type: 'line',
@@ -65,13 +67,36 @@ const chartGyro2 = new Chart(ctxGyro2, {
     options: { ...commonOptions, scales: { ...commonOptions.scales, y: { suggestedMin: -100, suggestedMax: 100 } } }
 });
 
+// Chart Pekerja 3
+const ctxAccel3 = document.getElementById('chartAccel-3').getContext('2d');
+const chartAccel3 = new Chart(ctxAccel3, {
+    type: 'line',
+    data: { labels: [], datasets: [
+            { label: 'Acc X', data: [], borderColor: '#ffc107', backgroundColor: 'transparent', tension: 0.1 },
+            { label: 'Acc Y', data: [], borderColor: '#ff5722', backgroundColor: 'transparent', tension: 0.1 },
+            { label: 'Acc Z', data: [], borderColor: '#e91e63', backgroundColor: 'transparent', tension: 0.1 }
+    ]},
+    options: { ...commonOptions, scales: { ...commonOptions.scales, y: { suggestedMin: -20, suggestedMax: 20 } } }
+});
+
+const ctxGyro3 = document.getElementById('chartGyro-3').getContext('2d');
+const chartGyro3 = new Chart(ctxGyro3, {
+    type: 'line',
+    data: { labels: [], datasets: [
+            { label: 'Gyro X', data: [], borderColor: '#00bcd4', backgroundColor: 'transparent', tension: 0.1 },
+            { label: 'Gyro Y', data: [], borderColor: '#3f51b5', backgroundColor: 'transparent', tension: 0.1 },
+            { label: 'Gyro Z', data: [], borderColor: '#4caf50', backgroundColor: 'transparent', tension: 0.1 }
+    ]},
+    options: { ...commonOptions, scales: { ...commonOptions.scales, y: { suggestedMin: -100, suggestedMax: 100 } } }
+});
+
 
 // ==========================================
 // 2. LOGIKA KONTROL CSV (INDIVIDU & MASTER)
 // ==========================================
-let isRecording_1 = false, isRecording_2 = false;
-let csvDataArray_1 = [], csvDataArray_2 = [];
-let dataCount_1 = 0, dataCount_2 = 0;
+let isRecording_1 = false, isRecording_2 = false, isRecording_3 = false;
+let csvDataArray_1 = [], csvDataArray_2 = [], csvDataArray_3 = [];
+let dataCount_1 = 0, dataCount_2 = 0, dataCount_3 = 0;
 const CSV_HEADER = "Timestamp(ms),AccX,AccY,AccZ,GyroX,GyroY,GyroZ,Roll,Pitch,Yaw";
 
 // -- Kontrol Individu --
@@ -99,6 +124,19 @@ function startRecord(device) {
         document.getElementById('btn-download-2').style.display = "none";
         
         const recordStatus = document.getElementById('record-status-2');
+        recordStatus.innerText = "Merekam (100Hz)... 0 baris";
+        recordStatus.style.color = "#d32f2f";
+    }
+    else if (device === 3) {
+        isRecording_3 = true;
+        csvDataArray_3 = [CSV_HEADER];
+        dataCount_3 = 0;
+        
+        document.getElementById('btn-start-3').disabled = true;
+        document.getElementById('btn-stop-3').disabled = false;
+        document.getElementById('btn-download-3').style.display = "none";
+        
+        const recordStatus = document.getElementById('record-status-3');
         recordStatus.innerText = "Merekam (100Hz)... 0 baris";
         recordStatus.style.color = "#d32f2f";
     }
@@ -140,19 +178,38 @@ function stopRecord(device) {
         btnDownload.download = `Log_Pekerja2_${Date.now()}.csv`;
         btnDownload.style.display = "inline-block";
     }
+    else if (device === 3) {
+        isRecording_3 = false;
+        document.getElementById('btn-start-3').disabled = false;
+        document.getElementById('btn-stop-3').disabled = true;
+        
+        const recordStatus = document.getElementById('record-status-3');
+        recordStatus.innerText = `Selesai! Total: ${dataCount_3} baris.`;
+        recordStatus.style.color = "#2e7d32";
+
+        const blob = new Blob([csvDataArray_3.join("\n")], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        
+        const btnDownload = document.getElementById('btn-download-3');
+        btnDownload.href = url;
+        btnDownload.download = `Log_Pekerja3_${Date.now()}.csv`;
+        btnDownload.style.display = "inline-block";
+    }
     syncMasterButtons(); // Sinkronisasi dengan tombol master
 }
 
 
-// -- Kontrol Master (1 Klik Untuk Keduanya) --
+// -- Kontrol Master (1 Klik Untuk Keduanya/Ketiganya) --
 function startRecordAll() {
     if (!isRecording_1) startRecord(1);
     if (!isRecording_2) startRecord(2);
+    if (!isRecording_3) startRecord(3);
 }
 
 function stopRecordAll() {
     if (isRecording_1) stopRecord(1);
     if (isRecording_2) stopRecord(2);
+    if (isRecording_3) stopRecord(3);
 }
 
 // -- Sistem Sinkronisasi Tombol Master vs Individu --
@@ -161,22 +218,22 @@ function syncMasterButtons() {
     const stopAllBtn = document.getElementById('btn-stop-all');
     const downloadAllBtn = document.getElementById('btn-download-all');
 
-    // Jika keduanya sedang merekam, matikan tombol start master
-    if (isRecording_1 && isRecording_2) {
+    // Jika semuanya sedang merekam, matikan tombol start master
+    if (isRecording_1 && isRecording_2 && isRecording_3) {
         startAllBtn.disabled = true;
     } else {
         startAllBtn.disabled = false;
     }
 
     // Jika setidaknya ada satu yang sedang merekam, hidupkan tombol stop master
-    if (isRecording_1 || isRecording_2) {
+    if (isRecording_1 || isRecording_2 || isRecording_3) {
         stopAllBtn.disabled = false;
     } else {
         stopAllBtn.disabled = true;
     }
 
     // Jika setidaknya ada satu alat yang punya riwayat rekaman selesai, hidupkan tombol CSV Gabungan
-    if (csvDataArray_1.length > 1 || csvDataArray_2.length > 1) {
+    if (csvDataArray_1.length > 1 || csvDataArray_2.length > 1 || csvDataArray_3.length > 1) {
         downloadAllBtn.disabled = false;
     } else {
         downloadAllBtn.disabled = true;
@@ -186,7 +243,7 @@ function syncMasterButtons() {
 
 // -- Fungsi Download Data Gabungan --
 function downloadCombinedCSV() {
-    if (csvDataArray_1.length <= 1 && csvDataArray_2.length <= 1) {
+    if (csvDataArray_1.length <= 1 && csvDataArray_2.length <= 1 && csvDataArray_3.length <= 1) {
         alert("Belum ada data rekaman untuk didownload.");
         return;
     }
@@ -195,19 +252,22 @@ function downloadCombinedCSV() {
     
     const header1 = "Timestamp1(ms),AccX1,AccY1,AccZ1,GyroX1,GyroY1,GyroZ1,Roll1,Pitch1,Yaw1";
     const header2 = "Timestamp2(ms),AccX2,AccY2,AccZ2,GyroX2,GyroY2,GyroZ2,Roll2,Pitch2,Yaw2";
-    combinedCSV.push(header1 + "," + header2);
+    const header3 = "Timestamp3(ms),AccX3,AccY3,AccZ3,GyroX3,GyroY3,GyroZ3,Roll3,Pitch3,Yaw3";
+    combinedCSV.push(header1 + "," + header2 + "," + header3);
 
     const len1 = csvDataArray_1.length > 1 ? csvDataArray_1.length - 1 : 0;
     const len2 = csvDataArray_2.length > 1 ? csvDataArray_2.length - 1 : 0;
-    const maxLen = Math.max(len1, len2);
+    const len3 = csvDataArray_3.length > 1 ? csvDataArray_3.length - 1 : 0;
+    const maxLen = Math.max(len1, len2, len3);
 
     const emptyRow = ",,,,,,,,,"; 
 
     for (let i = 1; i <= maxLen; i++) {
         const row1 = i <= len1 ? csvDataArray_1[i] : emptyRow;
         const row2 = i <= len2 ? csvDataArray_2[i] : emptyRow;
+        const row3 = i <= len3 ? csvDataArray_3[i] : emptyRow;
         
-        combinedCSV.push(row1 + "," + row2);
+        combinedCSV.push(row1 + "," + row2 + "," + row3);
     }
 
     const blob = new Blob([combinedCSV.join("\n")], { type: 'text/csv' });
@@ -225,16 +285,19 @@ function downloadCombinedCSV() {
 
 
 // ==========================================
-// 3. PENERIMAAN DATA DARI 2 ESP32 (SSE)
+// 3. PENERIMAAN DATA DARI 3 ESP32 (SSE)
 // ==========================================
 const IP_PEKERJA_1 = "http://192.168.1.100/events"; 
 const IP_PEKERJA_2 = "http://192.168.1.101/events"; 
+const IP_PEKERJA_3 = "http://192.168.1.102/events";
 
 let latestData_1 = null;
 let latestData_2 = null;
+let latestData_3 = null;
 
 if (!!window.EventSource) {
     
+    // -- Worker 1 --
     const source1 = new EventSource(IP_PEKERJA_1);
     const wsStatus1 = document.getElementById('ws-status-1');
 
@@ -259,6 +322,7 @@ if (!!window.EventSource) {
         } catch (err) {}
     });
 
+    // -- Worker 2 --
     const source2 = new EventSource(IP_PEKERJA_2);
     const wsStatus2 = document.getElementById('ws-status-2');
 
@@ -283,6 +347,31 @@ if (!!window.EventSource) {
         } catch (err) {}
     });
 
+    // -- Worker 3 --
+    const source3 = new EventSource(IP_PEKERJA_3);
+    const wsStatus3 = document.getElementById('ws-status-3');
+
+    source3.addEventListener('open', () => {
+        wsStatus3.innerText = 'TERHUBUNG';
+        wsStatus3.className = 'connection-status connected';
+    });
+    source3.addEventListener('error', (e) => {
+        if (e.target.readyState != EventSource.OPEN) {
+            wsStatus3.innerText = 'TERPUTUS';
+            wsStatus3.className = 'connection-status disconnected';
+        }
+    });
+    source3.addEventListener('sensor_data', (e) => {
+        try {
+            latestData_3 = JSON.parse(e.data);
+            if (isRecording_3) {
+                const row = `${latestData_3.time || 0},${latestData_3.x},${latestData_3.y},${latestData_3.z},${latestData_3.gx || 0},${latestData_3.gy || 0},${latestData_3.gz || 0},${latestData_3.roll},${latestData_3.pitch},${latestData_3.yaw}`;
+                csvDataArray_3.push(row);
+                dataCount_3++;
+            }
+        } catch (err) {}
+    });
+
 } else {
     console.error("Browser Anda tidak mendukung Server-Sent Events (SSE).");
 }
@@ -293,6 +382,7 @@ if (!!window.EventSource) {
 // ==========================================
 setInterval(() => {
     
+    // Render Worker 1
     if (latestData_1) {
         document.getElementById('val-total-accel-1').innerText = parseFloat(latestData_1.total || 0).toFixed(2);
         document.getElementById('val-roll-1').innerText = parseFloat(latestData_1.roll).toFixed(1);
@@ -327,6 +417,7 @@ setInterval(() => {
         }
     }
 
+    // Render Worker 2
     if (latestData_2) {
         document.getElementById('val-total-accel-2').innerText = parseFloat(latestData_2.total || 0).toFixed(2);
         document.getElementById('val-roll-2').innerText = parseFloat(latestData_2.roll).toFixed(1);
@@ -358,6 +449,41 @@ setInterval(() => {
 
         if (isRecording_2) {
             document.getElementById('record-status-2').innerText = `Merekam (100Hz)... ${dataCount_2} baris`;
+        }
+    }
+
+    // Render Worker 3
+    if (latestData_3) {
+        document.getElementById('val-total-accel-3').innerText = parseFloat(latestData_3.total || 0).toFixed(2);
+        document.getElementById('val-roll-3').innerText = parseFloat(latestData_3.roll).toFixed(1);
+        document.getElementById('val-pitch-3').innerText = parseFloat(latestData_3.pitch).toFixed(1);
+        document.getElementById('val-yaw-3').innerText = parseFloat(latestData_3.yaw).toFixed(1);
+
+        const timeString = latestData_3.time.toString();
+        
+        chartAccel3.data.labels.push(timeString);
+        chartAccel3.data.datasets[0].data.push(latestData_3.x);
+        chartAccel3.data.datasets[1].data.push(latestData_3.y);
+        chartAccel3.data.datasets[2].data.push(latestData_3.z);
+
+        chartGyro3.data.labels.push(timeString);
+        chartGyro3.data.datasets[0].data.push(latestData_3.gx || 0);
+        chartGyro3.data.datasets[1].data.push(latestData_3.gy || 0);
+        chartGyro3.data.datasets[2].data.push(latestData_3.gz || 0);
+
+        if (chartAccel3.data.labels.length > MAX_CHART_POINTS) {
+            chartAccel3.data.labels.shift();
+            chartAccel3.data.datasets.forEach(ds => ds.data.shift());
+            
+            chartGyro3.data.labels.shift();
+            chartGyro3.data.datasets.forEach(ds => ds.data.shift());
+        }
+
+        chartAccel3.update();
+        chartGyro3.update();
+
+        if (isRecording_3) {
+            document.getElementById('record-status-3').innerText = `Merekam (100Hz)... ${dataCount_3} baris`;
         }
     }
 
