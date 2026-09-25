@@ -12,10 +12,19 @@ Sistem menggunakan IP statis dari router khusus. **Tidak perlu upload ulang kode
 *   **Password:** `90093656`
 *   **Urutan Menyalakan:** Nyalakan Router -> Device 1 (kalibrasi) -> Device 2 (kalibrasi) -> Device 3 (kalibrasi) -> Hubungkan Laptop ke jaringan WiFi.
 
-## 🔗 Menjalankan Web Dashboard
+## 🔗 Cara Menjalankan Web Dashboard
 
-*   Buka folder **Web Dashboard**.
-*   Buka `index.html` menggunakan **Live Server** di browser.
+1. **Unduh File Project:** Download folder **Web Dashboard** (format `.zip`) dari repositori ini.
+2. **Ekstrak File:** Ekstrak file `.zip` tersebut ke folder komputer Anda.
+3. **Buka di VS Code:** 
+   * Buka aplikasi **Visual Studio Code**.
+   * Pilih menu **File** > **Open Folder...**, lalu pilih folder hasil ekstrak tadi.
+4. **Jalankan Web Dashboard:**
+   * Cari file `index.html` pada panel Explorer di sebelah kiri.
+   * Klik kanan pada file `index.html`, lalu pilih **Open with Live Server**.
+   * Dashboard akan otomatis terbuka di browser default Anda.
+
+> **Catatan:** Pastikan Anda sudah menginstal ekstensi **Live Server** oleh Ritwick Dey di Visual Studio Code.
 
 ## 🚨 Kalibrasi & Indikator LED
 
