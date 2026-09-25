@@ -8,9 +8,19 @@ Sistem *wearable motion tracking* dan *fall detection* real-time untuk sabuk pek
 
 Sistem menggunakan IP statis dari router khusus. **Tidak perlu upload ulang kode.**
 
-*   **WiFi SSID:** `M22_C129`
-*   **Password:** `90093656`
-*   **Urutan Menyalakan:** Nyalakan Router -> Device 1 (kalibrasi) -> Device 2 (kalibrasi) -> Device 3 (kalibrasi) -> Hubungkan Laptop ke jaringan WiFi.
+* **WiFi SSID:** `M22_C129`
+* **Password:** `90093656`
+
+### ⚠️ Urutan Menyalakan Perangkat
+
+> ⚠️ **PERINGATAN PENTING:** 
+> Wajib menyalakan perangkat **secara berurutan satu per satu** dan menunggu hingga kalibrasi selesai sebelum menyalakan perangkat berikutnya. Jangan menyalakan beberapa perangkat bersamaan agar pembagian/target IP address sesuai dan tidak terjadi bentrok (conflict) atau error komunikasi jaringan.
+
+1. **Nyalakan Router** — Tunggu hingga jaringan WiFi `M22_C129` aktif penuh.
+2. **Nyalakan Device 1** — Tunggu hingga proses kalibrasi selesai sepenuhnya.
+3. **Nyalakan Device 2** — Tunggu hingga proses kalibrasi selesai sepenuhnya.
+4. **Nyalakan Device 3** — Tunggu hingga proses kalibrasi selesai sepenuhnya.
+5. **Hubungkan Laptop** — Sambungkan Laptop ke jaringan WiFi `M22_C129`.
 
 ## 🔗 Cara Menjalankan Web Dashboard
 
