@@ -31,8 +31,8 @@ Pegang alat vertikal (Sumbu Y menghadap atas) saat dinyalakan.
 
 ## 📊 Standar Pengukuran
 
-*   **PITCH:** Menunduk (-), Tengadah (+)
-*   **ROLL:** Miring Kiri (-), Miring Kanan (+)
+*   **ROLL:** Menunduk (-), Tengadah (+)
+*   **PITCH:** Miring Kiri (-), Miring Kanan (+)
 *   **YAW:** Putar Kiri (+), Putar Kanan (-)
 *   **Akselerometer (X, Y):** Translasi horizontal (m/s²).
 *   **Akselerometer (Z):** Translasi vertikal (diam = -9.8 m/s²).
